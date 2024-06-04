@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiplomWildBeris.View.ItemView"
+             xmlns:vm="clr-namespace:DiplomWildBeris.ViewModels"
+             xmlns:model="clr-namespace:DiplomWildBeris.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns:fa="clr-namespace:FontAwesome"
+             x:DataType="vm:ItemViewModel"
+             >
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:DataType="model:Item" x:Key="ItemTempate">
+                <toolkit:Expander x:Name="ItemExpander" >
+                    <toolkit:Expander.Header >
+                        <Border Padding="15,15" MaximumHeightRequest="80">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Title}"
+                                    Margin="20,0"
+                                    FontAttributes="Bold"
+                                    FontSize="Medium" />
+                                <Border BackgroundColor="Transparent" 
+                             WidthRequest="40"
+                             HorizontalOptions="EndAndExpand">
+
+
+                                    <Label x:Name="ChevronLabel" Text="{x:Static fa:FontAwesomeIcons.ChevronDown}"
+                           FontSize="24" FontFamily="FAS" HorizontalTextAlignment="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                     Binding="{Binding Source={x:Reference  ItemExpander},Path=IsExpanded}"
+                                     Value="True">
+                                                <Setter Property="Text" Value="{x:Static   fa:FontAwesomeIcons.ChevronUp}"/>
+
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Border>
+                            </StackLayout>
+
+                        </Border>
+
+                    </toolkit:Expander.Header>
+                    <Border Padding="50" Margin="20">
+
+                        <Label Text="{Binding Topic.TopicDescription}" />
+                    </Border>
+                </toolkit:Expander>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+
+
+    <ContentView.Content>
+        <Grid RowDefinitions="*" Padding="20,40,20,0">
+            <CollectionView 
+                ItemsSource="{Binding Items}"
+                ItemTemplate="{StaticResource Key=ItemTempate}"
+                >
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="7" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Border 
+                    HeightRequest="80"
+                     WidthRequest="80"
+                    BackgroundColor="{StaticResource Primary}"
+                    HorizontalOptions="EndAndExpand"
+                StrokeShape="Ellipse"
+                VerticalOptions="EndAndExpand"
+                Margin="0,0,70,110"
+                    
+                  
+                    >
+
+                <Label Text="{x:Static fa:FontAwesomeIcons.Plus}" FontSize="32" FontFamily="FAS" HorizontalOptions="Center" VerticalTextAlignment="Center" VerticalOptions="Center"/>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenPopupCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <ScrollView IsVisible="{Binding IsOpenCreateItem,Mode=TwoWay}">
+                <StackLayout  MaximumWidthRequest="450" VerticalOptions="Center" 
+                         BackgroundColor="{AppThemeBinding Light={StaticResource HeaderBarBackgroundColorLight}, Dark={StaticResource HeaderBarBackgroundColorDark}}" Spacing="6" Padding="20,10" >
+                    <Border WidthRequest="90" HeightRequest="70" HorizontalOptions="End" BackgroundColor="Transparent">
+                        <Label Text="{x:Static fa:FontAwesomeIcons.Xmark}" FontAttributes="Bold" 
+                           Margin="10,10,10,30" HorizontalOptions="End" FontSize="32" TextColor="{AppThemeBinding Light={StaticResource HeaderBarBackgroundColorDark}, Dark={StaticResource HeaderBarBackgroundColorLight}}" FontFamily="FAS" />
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenPopupCommand}"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Border Padding="5" MaximumHeightRequest="150"
+                 
+                    >
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                         Offset="0,5"
+                         Radius="5"
+                         Opacity="0.2"/>
+                        </Border.Shadow>
+
+                        <Editor MaximumHeightRequest="150" MaxLength="250" Text="{Binding Title}" Placeholder="Введите вопрос" HorizontalTextAlignment="Center" VerticalOptions="Center" AutoSize="TextChanges" >
+
+                        </Editor>
+                    </Border>
+
+                    <Border Padding="5"  MaximumHeightRequest="200" >
+                        <Border.Shadow>
+                            <Shadow Brush="Black"
+                                 Offset="0,5"
+                                 Radius="5"
+                                 Opacity="0.2"/>
+                        </Border.Shadow>
+
+                        <Editor Text="{Binding Description}" Placeholder="Введите ответ" HorizontalTextAlignment="Center" VerticalOptions="Center" MaxLength="400" MaximumHeightRequest="200"  AutoSize="TextChanges"  />
+
+
+
+
+                    </Border>
+
+                    <Button Text="Сохранить" Margin="15" FontAttributes="Bold" HorizontalOptions="Center"   Padding="40,10"  Command="{Binding CreateItemCommand }"/>
+
+
+
+
+                </StackLayout>
+            </ScrollView>
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding }"/>
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiplomWildBeris.View.AdminMainPage"
+             xmlns:vm ="clr-namespace:DiplomWildBeris.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="AdminMainPage"
+             x:DataType="vm:AdminMainPageViewModel"
+             xmlns:v="clr-namespace:DiplomWildBeris.View"
+             >
+    <ContentPage.Content>
+        <Grid RowDefinitions="150,*" RowSpacing="20">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="85,*" ColumnSpacing="5"   RowSpacing="5"  >
+                <Border Padding="5" Margin="0,20,0,0" MaximumHeightRequest="60" WidthRequest="120">
+                    <Label VerticalOptions="Center" HorizontalOptions="Center">Выход</Label>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LoginExitCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <StackLayout Grid.Row="1"  VerticalOptions="CenterAndExpand" Margin="30,0,0,0" Padding="20"  >
+                    <Label Padding="10" HorizontalOptions="Center" Text="Пользователи" TextColor="White" FontSize="20" FontAttributes="Bold"></Label>
+                    <BoxView HeightRequest="1.5" BackgroundColor="{StaticResource White}" IsVisible="False"  >
+                        <BoxView.Triggers>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding CurrentState}" Value="AdminPage" >
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </BoxView.Triggers>
+                    </BoxView>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding ChangeStateCommand}" CommandParameter="AdminPage"/>
+                    </StackLayout.GestureRecognizers>
+
+                </StackLayout>
+
+                <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="CenterAndExpand" Margin="30,0,0,0" Padding="20" >
+                    <Label Padding="10"  HorizontalOptions="Center" Text="Вопросы" TextColor="White"  FontSize="20" FontAttributes="Bold" ></Label>
+                    <BoxView HeightRequest="1.5" BackgroundColor="{StaticResource White}" IsVisible="False"  >
+                        <BoxView.Triggers>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding CurrentState}" Value="ItemView" >
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </BoxView.Triggers>
+                    </BoxView>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding ChangeStateCommand}" CommandParameter="ItemView"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+            </Grid>
+
+
+            <Grid Grid.Row="1"  
+            toolkit:StateContainer.CurrentState="{Binding CurrentState}"
+            toolkit:StateContainer.CanStateChange="{Binding CanStateChange}">
+
+                <toolkit:StateContainer.StateViews >
+                    <VerticalStackLayout toolkit:StateView.StateKey="Loading" VerticalOptions="Center" HorizontalOptions="Center" >
+                        <ActivityIndicator IsRunning="True" HeightRequest="200" WidthRequest="200"/>
+                    </VerticalStackLayout>
+
+                    <v:ItemView toolkit:StateView.StateKey="ItemView"/>
+                    <v:AdminPage toolkit:StateView.StateKey="AdminPage"/>
+
+
+
+
+                </toolkit:StateContainer.StateViews>
+
+
+
+            </Grid>
+
+        </Grid>
+
+
+
+    </ContentPage.Content>
+</ContentPage>

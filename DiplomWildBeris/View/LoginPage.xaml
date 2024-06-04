@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiplomWildBeris.View.LoginPage"
+             xmlns:fa="clr-namespace:FontAwesome"
+             xmlns:vm="clr-namespace:DiplomWildBeris.ViewModels"
+             x:DataType="vm:LoginViewModel"
+                Shell.FlyoutItemIsVisible="False"
+             Title="LoginPage">
+    <ContentPage.Content>
+
+        <StackLayout MaximumWidthRequest="450" VerticalOptions="Center" Spacing="5" Padding="20,10"   >
+            <Label Text="Войти в приложение" FontAttributes="Bold" Margin="10" HorizontalOptions="Center" FontSize="16" />
+            <Border Padding="5"
+                      
+                      
+                      >
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                              Offset="0,5"
+                              Radius="5"
+                              Opacity="0.2"/>
+                </Border.Shadow>
+                <Entry Text="{Binding Login}" Placeholder="Введите логин" HorizontalTextAlignment="Center" VerticalOptions="Center" >
+
+                </Entry>
+            </Border>
+            <Border Padding="5"  >
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                                      Offset="0,5"
+                                      Radius="5"
+                                      Opacity="0.2"/>
+                </Border.Shadow>
+                <Grid>
+                    <Entry x:Name="PassEntry" Text="{Binding Password}" Placeholder="Введите пароль" HorizontalTextAlignment="Center" VerticalOptions="Center" IsPassword="True"  />
+                    <Label Text="{x:Static fa:FontAwesomeIcons.Eye}" Margin="15,0" FontSize="Subtitle"
+                              FontFamily="FAS" HorizontalOptions="End" VerticalOptions="Center">
+
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label"
+                                           Binding="{Binding Source={x:Reference PassEntry},Path=IsPassword,Mode=OneWay}"
+                                           Value="False">
+                                <Setter Property="Text" Value="{x:Static fa:FontAwesomeIcons.EyeSlash}"/>
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SwichPassVisible"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                </Grid>
+
+            </Border>
+
+            <Button Text="Войти" Margin="15" FontAttributes="Bold" HorizontalOptions="Center"   Padding="40,10"  Command="{Binding AuthorizeCommand}"/>
+
+
+
+
+        </StackLayout>
+
+
+
+    </ContentPage.Content>
+</ContentPage>

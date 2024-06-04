@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:DiplomWildBeris.Models"
+             xmlns:fa  ="clr-namespace:FontAwesome"
+             xmlns:vm="clr-namespace:DiplomWildBeris.ViewModels"
+             x:DataType="vm:MainPageViewModel"
+             x:Class="DiplomWildBeris.View.MainPage">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:DataType="model:Item" x:Key="ItemTempate">
+                <toolkit:Expander x:Name="ItemExpander"  >
+                    <toolkit:Expander.Header >
+                        <Border Padding="15,15" MaximumHeightRequest="80">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Title}"
+                                    Margin="20,0"
+                                    FontAttributes="Bold"
+                                    FontSize="Medium" />
+                                <Border BackgroundColor="Transparent" 
+                             WidthRequest="40"
+                             HorizontalOptions="EndAndExpand">
+
+
+                                    <Label x:Name="ChevronLabel" Text="{x:Static fa:FontAwesomeIcons.ChevronDown}"
+                           FontSize="24" FontFamily="FAS" HorizontalTextAlignment="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                     Binding="{Binding Source={x:Reference  ItemExpander},Path=IsExpanded}"
+                                     Value="True">
+                                                <Setter Property="Text" Value="{x:Static   fa:FontAwesomeIcons.ChevronUp}"/>
+
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Border>
+                            </StackLayout>
+
+                        </Border>
+
+                    </toolkit:Expander.Header>
+                    <Border Padding="50" Margin="20">
+
+                        <Label Text="{Binding Topic.TopicDescription}" />
+                    </Border>
+                </toolkit:Expander>
+
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="100,*" ColumnDefinitions="100,*">
+
+            <Border Padding="20" MaximumHeightRequest="60">
+                <Label VerticalOptions="Center" HorizontalOptions="Center">Выход</Label>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoginExitCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border Padding="5" MaximumWidthRequest="300"  HorizontalOptions="Center" HeightRequest="60"  Margin="0,20"  Grid.Column="2"   
+        >
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+             Offset="0,5"
+             Radius="5"
+             Opacity="0.2"/>
+                </Border.Shadow>
+                <Grid  MaximumWidthRequest="480">
+                    <Entry MaximumWidthRequest="400" MinimumWidthRequest="300" Text="{Binding Search}" Placeholder="Поиск" HorizontalTextAlignment="Center" HorizontalOptions="Center" />
+
+                    <Label Text="{x:Static fa:FontAwesomeIcons.MagnifyingGlass}" Margin="15,0" 
+FontFamily="FAS"  VerticalOptions="Center" HorizontalOptions="End" FontSize="22">
+
+
+                    </Label>
+                </Grid>
+            </Border>
+
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ItemTempate}"  Grid.ColumnSpan="2">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiplomWildBeris.View.AdminPage"
+             xmlns:vm="clr-namespace:DiplomWildBeris.ViewModels"
+             xmlns:model="clr-namespace:DiplomWildBeris.Models"
+             xmlns:fa="clr-namespace:FontAwesome"
+             Shell.FlyoutItemIsVisible="True"
+             x:DataType="vm:AdminPageViewModel"
+           >
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:DataType="model:User" x:Key="UserTemplate">
+                <StackLayout  Orientation="Horizontal"  HorizontalOptions="Center"  HeightRequest="80" >
+
+                    <Border
+                        Margin="0,10"
+                        
+                      
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 40,0,0,40"
+                        Padding="15">
+                        <Border.Shadow>
+                            <Shadow Brush="White"
+                       Offset="0,5"
+                       Radius="5"
+                       Opacity="0.2"/>
+                        </Border.Shadow>
+                        <Label TextColor="White" FontSize="20" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" >
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Пользователь :"/>
+                                    <Span Text="   "/>
+                                    <Span  Text="{Binding Login}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Border>
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid RowDefinitions="*" Padding="20,40,20,0">
+            <CollectionView 
+                ItemsSource="{Binding Users}"
+                ItemTemplate="{StaticResource Key=UserTemplate}"
+                >
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="7" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <Border 
+                    HeightRequest="80"
+                     WidthRequest="80"
+                    BackgroundColor="{StaticResource Primary}"
+                    HorizontalOptions="EndAndExpand"
+                StrokeShape="Ellipse"
+                VerticalOptions="EndAndExpand"
+                Margin="0,0,70,110"
+                    
+                  
+                    >
+
+                <Label Text="{x:Static fa:FontAwesomeIcons.Plus}" FontSize="32" FontFamily="FAS" HorizontalOptions="Center" VerticalTextAlignment="Center" VerticalOptions="Center"/>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenPopupCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+
+            <StackLayout IsVisible="{Binding IsOpenCreateUser,Mode=TwoWay}" MaximumWidthRequest="450" VerticalOptions="Center" 
+                         BackgroundColor="{AppThemeBinding Light={StaticResource HeaderBarBackgroundColorLight}, Dark={StaticResource HeaderBarBackgroundColorDark}}" Spacing="6" Padding="20,10" >
+                <Border WidthRequest="90" HeightRequest="70" HorizontalOptions="End" BackgroundColor="Transparent">
+                    <Label Text="{x:Static fa:FontAwesomeIcons.Xmark}" FontAttributes="Bold" 
+                           Margin="10,10,10,30" HorizontalOptions="End" FontSize="32" TextColor="{AppThemeBinding Light={StaticResource HeaderBarBackgroundColorDark}, Dark={StaticResource HeaderBarBackgroundColorLight}}" FontFamily="FAS" />
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenPopupCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border Padding="5"
+                 
+                    >
+                    <Border.Shadow>
+                        <Shadow Brush="Black"
+                         Offset="0,5"
+                         Radius="5"
+                         Opacity="0.2"/>
+                    </Border.Shadow>
+                    <Entry Text="{Binding LoginReg}" Placeholder="Введите логин" HorizontalTextAlignment="Center" VerticalOptions="Center" >
+
+                    </Entry>
+                </Border>
+                <Border Padding="5"  >
+                    <Border.Shadow>
+                        <Shadow Brush="Black"
+                                 Offset="0,5"
+                                 Radius="5"
+                                 Opacity="0.2"/>
+                    </Border.Shadow>
+                    <Grid>
+                        <Entry x:Name="PassEntry" Text="{Binding PasswordReg}" Placeholder="Введите пароль" HorizontalTextAlignment="Center" VerticalOptions="Center" IsPassword="True"  />
+                        <Label Text="{x:Static fa:FontAwesomeIcons.Eye}" Margin="15,0" FontSize="Subtitle"
+                         FontFamily="FAS" HorizontalOptions="End" VerticalOptions="Center">
+
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                      Binding="{Binding Source={x:Reference PassEntry},Path=IsPassword,Mode=OneWay}"
+                                      Value="False">
+                                    <Setter Property="Text" Value="{x:Static fa:FontAwesomeIcons.EyeSlash}"/>
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SwichPassVisible"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                    </Grid>
+
+                </Border>
+
+                <Button Text="Зарегистрировать" Margin="15" FontAttributes="Bold" HorizontalOptions="Center"   Padding="40,10"  Command="{Binding RegisterUserCommand }"/>
+
+
+
+
+            </StackLayout>
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding }"/>
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

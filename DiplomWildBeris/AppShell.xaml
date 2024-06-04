@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="DiplomWildBeris.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:view="clr-namespace:DiplomWildBeris.View"
+    Shell.FlyoutBehavior="Disabled"
+   Shell.NavBarIsVisible="False"
+   Shell.FlyoutItemIsVisible="False"
+   Shell.TabBarIsVisible="False"
+    Title="DiplomWildBeris">
+
+
+    <ShellContent
+    ContentTemplate="{DataTemplate view:LoginPage}"
+    Route="LoginPage" />
+
+    <ShellContent
+    ContentTemplate="{DataTemplate view:MainPage}"
+    Route="MainPage" />
+
+
+
+    <ShellContent
+    ContentTemplate="{DataTemplate view:AdminMainPage}"
+    Route="AdminMainPage" />
+
+</Shell>

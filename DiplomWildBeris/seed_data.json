@@ -1,0 +1,25 @@
+{
+  "User": [
+    {
+      "Login": "user",
+      "Password": "user",
+      "RoleRaw": 0
+    },
+    {
+      "Login": "admin",
+      "Password": "admin",
+      "RoleRaw": 1
+    }
+
+  ],
+  "Item": [
+    {
+      "Title": "Как открыть ПВЗ?",
+      "Topic": {
+        "TopicName": "",
+        "TopicDescription": "Вся информация размещена на нашем сайте. Переходите и изучайте информацию."
+      }
+    }
+  ]
+
+}
